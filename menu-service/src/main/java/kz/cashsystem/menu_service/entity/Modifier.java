@@ -1,13 +1,16 @@
 package kz.cashsystem.menu_service.entity;
 
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.*;
 
 import java.math.BigDecimal;
 
 @Entity
 @Table(name = "modifiers")
-@Data
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
 public class Modifier {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

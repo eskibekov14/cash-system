@@ -1,11 +1,14 @@
 package kz.cashsystem.menu_service.entity;
 
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.*;
 
 @Entity
 @Table(name = "categories")
-@Data
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
 public class Category {
 
     @Id
