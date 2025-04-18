@@ -29,7 +29,7 @@ public class MenuItemService {
     public MenuItem updateMenuItem(MenuItem updMenuItem){
         return menuItemRepository.save(updMenuItem);
     }
-    public void deleteCategory(Long id){
+    public void deleteMenuItem(Long id){
         menuItemRepository.deleteById(id);
     }
 }
