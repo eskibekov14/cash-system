@@ -1,0 +1,17 @@
+services:
+  postgres-db:
+    image: postgres:12-alpine
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: donttouchmydatabase
+      POSTGRES_MULTIPLE_DATABASES: "menu"
+    volumes:
+      - ./postgres/init-db.sh:/docker-entrypoint-initdb.d/init-db.sh
+    networks:
+      - backend
+
+networks:
+  backend:
+    driver: bridge
