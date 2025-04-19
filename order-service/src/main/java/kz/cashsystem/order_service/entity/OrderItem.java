@@ -21,7 +21,7 @@ public class OrderItem {
     private Long menuItemId;
     private String menuItemName;
     private BigDecimal menuItemPrice;
-    private List<Long> modifiersId;
+    private List<Long> modifiersId; // NEED TO FIX
     
     private int quantity;
     private BigDecimal price;
