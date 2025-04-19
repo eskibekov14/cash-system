@@ -4,6 +4,13 @@
 ```
 mvn clean install
 ```
+2) Up databases
+```
+docker-compose up -d
+```
+
+
+
 
 ### postgresql
 ```
