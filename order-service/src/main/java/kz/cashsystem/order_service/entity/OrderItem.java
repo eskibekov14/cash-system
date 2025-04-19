@@ -19,8 +19,9 @@ public class OrderItem {
     private Order order;
 
     private Long menuItemId;
-    private String menuItemName;
-    private BigDecimal menuItemPrice;
+    @ElementCollection
+    @CollectionTable(name = "order_item_modifiers")
+    @Column(name = "modifier_id")
     private List<Long> modifiersId; // NEED TO FIX
     
     private int quantity;
