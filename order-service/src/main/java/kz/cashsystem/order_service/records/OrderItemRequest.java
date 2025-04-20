@@ -5,6 +5,5 @@ import java.util.List;
 
 public record OrderItemRequest(Long menuItemId,
                                List<Long> modifiersId,
-                               int quantity,
-                               BigDecimal price)
+                               int quantity)
 {}
