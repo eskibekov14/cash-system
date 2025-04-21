@@ -8,10 +8,13 @@ import kz.cashsystem.order_service.enums.StatusEnum;
 import kz.cashsystem.order_service.enums.TableStatus;
 import kz.cashsystem.order_service.records.CafeOrderRequest;
 import kz.cashsystem.order_service.records.OrderItemRequest;
+import kz.cashsystem.order_service.records.PriceCalculationRequest;
+import kz.cashsystem.order_service.records.PriceCalculationResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,6 +25,7 @@ public class CafeService {
     private final GuestTableService guestTableService;
     private final OrderService orderService;
     private final OrderItemService orderItemService;
+    private final MenuServiceClient menuServiceClient;
 
     @Transactional
     public Order placeOrder(CafeOrderRequest request) {
@@ -48,7 +52,15 @@ public class CafeService {
             item.setMenuItemId(itemReq.menuItemId());
             item.setModifiersId(itemReq.modifiersId());
             item.setQuantity(itemReq.quantity());
-            item.setPrice(itemReq.price());
+            PriceCalculationRequest priceRequest = new PriceCalculationRequest(
+                    itemReq.menuItemId(),
+                    itemReq.modifiersId()
+            );
+
+            PriceCalculationResponse priceResponse = menuServiceClient.calculatePrice(priceRequest);
+            BigDecimal total = priceResponse.totalPrice();
+
+            item.setPrice(total);
             orderItems.add(orderItemService.create(item));
         }
 

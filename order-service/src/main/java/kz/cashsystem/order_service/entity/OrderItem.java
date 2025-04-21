@@ -1,5 +1,6 @@
 package kz.cashsystem.order_service.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -16,13 +17,14 @@ public class OrderItem {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @ManyToOne(fetch = FetchType.LAZY)
+    @JsonIgnore
     private Order order;
 
     private Long menuItemId;
     @ElementCollection
     @CollectionTable(name = "order_item_modifiers")
     @Column(name = "modifier_id")
-    private List<Long> modifiersId; // NEED TO FIX
+    private List<Long> modifiersId;
     
     private int quantity;
     private BigDecimal price;
