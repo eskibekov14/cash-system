@@ -18,6 +18,7 @@ public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Column(name = "customer_id", nullable = true)
     private Long customerId;
     @ManyToOne(fetch = FetchType.LAZY)
     private GuestTable table;
