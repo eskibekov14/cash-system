@@ -2,6 +2,7 @@ package kz.cashsystem.order_service.services;
 
 import jakarta.persistence.EntityNotFoundException;
 import kz.cashsystem.order_service.entity.Payment;
+import kz.cashsystem.order_service.enums.PaymentStatus;
 import kz.cashsystem.order_service.repositories.PaymentRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -14,6 +15,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class PaymentService {
     private final PaymentRepository paymentRepository;
+    private final PaymentProvider paymentProvider; //типа каспи
 
     @Transactional
     public Payment create(Payment payment) {
@@ -22,6 +24,12 @@ public class PaymentService {
             throw new IllegalArgumentException("Сумма платежа должна быть положительной");
         }
 
+        boolean success = paymentProvider.process(payment);
+        if (!success) {
+            throw new IllegalStateException("Платёж не прошёл (мок)");
+        }
+
+        payment.setStatus(PaymentStatus.PAID); // устанавливаем статус
         return paymentRepository.save(payment);
     }
 

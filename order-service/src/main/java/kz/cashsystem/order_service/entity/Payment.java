@@ -2,6 +2,7 @@ package kz.cashsystem.order_service.entity;
 
 import jakarta.persistence.*;
 import kz.cashsystem.order_service.enums.MethodEnum;
+import kz.cashsystem.order_service.enums.PaymentStatus;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
@@ -21,6 +22,8 @@ public class Payment {
     private Order order;
     private BigDecimal amount;
     private MethodEnum method;
+    @Enumerated(EnumType.STRING)
+    private PaymentStatus status;
     @CreationTimestamp
     private ZonedDateTime paymentDate;
 }
