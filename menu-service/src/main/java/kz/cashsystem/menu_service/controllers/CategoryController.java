@@ -2,8 +2,11 @@ package kz.cashsystem.menu_service.controllers;
 
 import jakarta.validation.Valid;
 import kz.cashsystem.menu_service.entity.Category;
+import kz.cashsystem.menu_service.entity.SubCategory;
 import kz.cashsystem.menu_service.service.CategoryService;
+import kz.cashsystem.menu_service.service.SubCategoryService;
 import lombok.RequiredArgsConstructor;
+import org.hibernate.query.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -14,11 +17,20 @@ import java.util.List;
 @RequestMapping("/api/category")
 @RequiredArgsConstructor
 public class CategoryController {
+
     private final CategoryService categoryService;
+    private final SubCategoryService subCategoryService;
+
     @GetMapping
     public ResponseEntity<List<Category>> getAllCategories() {
         return ResponseEntity.ok(categoryService.getAllCategories());
     }
+
+    @GetMapping("/sub")
+    public ResponseEntity<List<SubCategory>> getSubCategories(){
+        return ResponseEntity.ok(subCategoryService.getAllCategories());
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity<Category> getCategoryById(@PathVariable Long id) {
         Category category = categoryService.getCategoryById(id);
@@ -28,11 +40,13 @@ public class CategoryController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
     }
+
     @PostMapping
     public ResponseEntity<Category> addCategory(@Valid @RequestBody Category category) {
         Category savedCategory = categoryService.addCategory(category);
         return ResponseEntity.status(HttpStatus.CREATED).body(savedCategory);
     }
+
     @PutMapping("/{id}")
     public ResponseEntity<Category> updateCategory(@PathVariable Long id, @Valid @RequestBody Category category) {
         Category existing = categoryService.getCategoryById(id);
@@ -44,6 +58,7 @@ public class CategoryController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
     }
+
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteCategory(@PathVariable Long id) {
         Category existing = categoryService.getCategoryById(id);
