@@ -29,9 +29,9 @@ public class MenuItem {
     private BigDecimal basePrice;
     private boolean available;
 
-    @NotNull(message = "Категория обязательна")
+    @NotNull(message = "Саб Категория обязательна")
     @ManyToOne
-    private Category category;
+    private SubCategory subCategory;
 
     @OneToMany
     private List<Modifier> modifiers;
