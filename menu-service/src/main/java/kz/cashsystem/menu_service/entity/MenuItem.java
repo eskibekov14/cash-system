@@ -30,7 +30,7 @@ public class MenuItem {
     private boolean available;
 
     @NotNull(message = "Саб Категория обязательна")
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     private SubCategory subCategory;
 
     @OneToMany

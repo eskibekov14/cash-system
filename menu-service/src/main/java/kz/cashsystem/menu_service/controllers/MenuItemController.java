@@ -1,5 +1,6 @@
 package kz.cashsystem.menu_service.controllers;
 
+import kz.cashsystem.menu_service.dto.MenuFilter;
 import kz.cashsystem.menu_service.service.MenuItemService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,8 +20,8 @@ import java.util.List;
 public class MenuItemController {
     private final MenuItemService menuItemService;
     @GetMapping
-    public ResponseEntity<List<MenuItem>> getAllMenuItems() {
-        List<MenuItem> items = menuItemService.getAllMenuItems();
+    public ResponseEntity<List<MenuItem>> getAllMenuItems(@ModelAttribute MenuFilter filter) {
+        List<MenuItem> items = menuItemService.getAllMenuItems(filter);
         return ResponseEntity.ok(items);
     }
 
