@@ -11,6 +11,7 @@
 	<groupId>kz.cashsystem</groupId>
 	<artifactId>menu-service</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
+	<packaging>jar</packaging>
 	<name>menu-service</name>
 	<description>Demo project for Spring Boot</description>
 
