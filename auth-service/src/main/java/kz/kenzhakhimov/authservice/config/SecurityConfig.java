@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -19,16 +20,17 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableWebSecurity
 public class SecurityConfig {
 
-    @Autowired
-    private JWTFilter jwtFilter;
 
-    @Autowired
-    private UserInfoConfigManager userInfoConfigManager;
 
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+    public SecurityFilterChain securityFilterChain(HttpSecurity http,
+                                                   JWTFilter jwtFilter,
+                                                   UserInfoConfigManager userInfoConfigManager,
+                                                   PasswordEncoder passwordEncoder) throws Exception {
         http
                 .csrf(AbstractHttpConfigurer::disable)
+                .userDetailsService(userInfoConfigManager)
+                .authenticationProvider(daoAuthenticationProvider(userInfoConfigManager, passwordEncoder))
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(AppConstants.PUBLIC_URLS).permitAll()
                         .requestMatchers("/api/test/public/hello/**").hasAnyRole("USER", "ADMIN")
@@ -40,10 +42,21 @@ public class SecurityConfig {
         return http.build();
     }
 
-    @Autowired
-    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(userInfoConfigManager).passwordEncoder(passwordEncoder());
+    @Bean
+    public DaoAuthenticationProvider daoAuthenticationProvider(
+            UserInfoConfigManager userDetailsService,
+            PasswordEncoder passwordEncoder
+    ) {
+        DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
+        provider.setUserDetailsService(userDetailsService);
+        provider.setPasswordEncoder(passwordEncoder);
+        return provider;
     }
+
+//    @Autowired
+//    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
+//        auth.userDetailsService(userInfoConfigManager).passwordEncoder(passwordEncoder());
+//    }
 
     @Bean
     public PasswordEncoder passwordEncoder() {

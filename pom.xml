@@ -11,6 +11,7 @@
     <groupId>kz.cashsystem</groupId>
     <artifactId>cash-system</artifactId>
     <version>0.0.1-SNAPSHOT</version>
+    <packaging>pom</packaging>
     <name>cash-system</name>
     <description>Aggregator for menu-service and order-service microservices</description>
 
@@ -21,6 +22,7 @@
     <modules>
         <module>menu-service</module>
         <module>order-service</module>
+        <module>auth-service</module>
     </modules>
 
 
