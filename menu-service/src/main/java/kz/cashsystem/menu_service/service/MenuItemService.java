@@ -31,19 +31,19 @@ public class MenuItemService {
 
     @Transactional(readOnly = true)
     public List<MenuItem> getAllMenuItems(MenuFilter filter) {
-        List<MenuItem> items = new ArrayList<>();
-        if (filter != null) {
-            if(filter.getCategoryId() != null && filter.getCategoryId() >= 0) {
-                if(filter.getCategoryId() == 0) return menuItemRepository.findAll();
-                List<SubCategory> subCategories = categoryRepository.findById(filter.getCategoryId()).get().getSubCategories();
-                items = menuItemRepository.findBySubCategoryIn(subCategories);
-            }
-            if(filter.getSubCategoryId() != null && filter.getSubCategoryId() > 0) {
-                items = menuItemRepository.findBySubCategory_Id(filter.getSubCategoryId());
-            }
+        List<MenuItem> items;
+
+        if(filter.getCategoryId() != null && filter.getCategoryId() >= 0) {
+            if(filter.getCategoryId() == 0) return menuItemRepository.findAll();
+            List<SubCategory> subCategories = categoryRepository.findById(filter.getCategoryId()).get().getSubCategories();
+            items = menuItemRepository.findBySubCategoryIn(subCategories);
+        }
+        if(filter.getSubCategoryId() != null && filter.getSubCategoryId() > 0) {
+            items = menuItemRepository.findBySubCategory_Id(filter.getSubCategoryId());
         }else {
             items = menuItemRepository.findAll();
         }
+
         return items;
     }
 
