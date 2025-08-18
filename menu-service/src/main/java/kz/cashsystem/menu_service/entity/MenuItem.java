@@ -33,6 +33,11 @@ public class MenuItem {
     @ManyToOne(fetch = FetchType.EAGER)
     private SubCategory subCategory;
 
-    @OneToMany
+    @ManyToMany
+    @JoinTable(
+            name = "menu_items_modifiers",
+            joinColumns = @JoinColumn(name = "menu_item_id"),
+            inverseJoinColumns = @JoinColumn(name = "modifier_id")
+    )
     private List<Modifier> modifiers;
 }
