@@ -5,15 +5,18 @@ import App from './App';
 import { AuthProvider } from './state/AuthContext';
 import { ThemeProvider, CssBaseline } from '@mui/material';
 import { theme } from './theme';
+import { OrderProvider } from './state/OrderContext';
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
     <ThemeProvider theme={theme}>
       <CssBaseline />
       <AuthProvider>
-        <BrowserRouter>
-          <App />
-        </BrowserRouter>
+        <OrderProvider>
+          <BrowserRouter>
+            <App />
+          </BrowserRouter>
+        </OrderProvider>
       </AuthProvider>
     </ThemeProvider>
   </React.StrictMode>

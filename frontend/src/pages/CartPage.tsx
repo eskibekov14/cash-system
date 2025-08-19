@@ -1,16 +1,28 @@
 import { useLocation, useNavigate } from 'react-router-dom';
-import { OrderAPI, MenuAPI } from '../api/http';
+import { OrderAPI, MenuAPI, http } from '../api/http';
 import { Typography, Container, Card, CardContent, Button, Box, Chip } from '@mui/material';
 import NavBar from '../components/NavBar';
+import { useOrderCtx } from '../state/OrderContext';
 
 export default function CartPage() {
   const nav = useNavigate();
   const { state } = useLocation() as { state: { cart: { menuItemId: number; modifiersId: number[]; quantity: number }[] } };
   const cart = state?.cart ?? [];
+  const { mode, tableId, deliveryNote, customerName, customerPhone } = useOrderCtx();
 
   async function placeOrder() {
-    await OrderAPI.createTakeaway(cart);
-    nav('/menu');
+    if (mode === 'TAKEAWAY') {
+      await OrderAPI.createTakeaway(cart);
+    } else if (mode === 'DINE_IN') {
+      await http.post('/order/order', { customer: null, tableId, items: cart });
+    } else if (mode === 'DELIVERY') {
+      await http.post('/order/order/delivery', {
+        customer: { name: customerName || 'Гость', phone: customerPhone || '', address: deliveryNote || undefined },
+        tableId: null,
+        items: cart,
+      });
+    }
+    nav('/orders');
   }
 
   return (
