@@ -39,6 +39,33 @@ export const OrderAPI = {
     const res = await http.post('/order/order/takeaway', { customer: null, tableId: null, items });
     return res.data;
   },
+  async createDineIn(tableId: number, items: { menuItemId: number; modifiersId: number[]; quantity: number }[]) {
+    const res = await http.post('/order/order', { customer: null, tableId, items });
+    return res.data;
+  },
+  async createDelivery(customer: { name: string; phone: string; address?: string } | null, items: { menuItemId: number; modifiersId: number[]; quantity: number }[]) {
+    const res = await http.post('/order/order/delivery', { customer, tableId: null, items });
+    return res.data;
+  },
+  async listOrders() {
+    const res = await http.get('/order/order');
+    return res.data;
+  }
+};
+
+export type GuestTable = {
+  id: number;
+  name: string;
+  capacity: number;
+  location: string;
+  status: 'AVAILABLE' | 'OCCUPIED' | 'RESERVED';
+};
+
+export const TableAPI = {
+  async listTables() {
+    const res = await http.get<GuestTable[]>('/order/order/tables');
+    return res.data;
+  }
 };
 
 

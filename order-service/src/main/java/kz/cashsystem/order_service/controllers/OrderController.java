@@ -1,13 +1,17 @@
 package kz.cashsystem.order_service.controllers;
 
 import kz.cashsystem.order_service.entity.Order;
+import kz.cashsystem.order_service.entity.GuestTable;
 import kz.cashsystem.order_service.records.CafeOrderRequest;
 import kz.cashsystem.order_service.services.DeliveryService;
 import kz.cashsystem.order_service.services.DineInService;
+import kz.cashsystem.order_service.services.OrderService;
 import kz.cashsystem.order_service.services.TakeAwayService;
+import kz.cashsystem.order_service.services.GuestTableService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,6 +24,8 @@ public class OrderController {
     private final DineInService dineInService;
     private final DeliveryService deliveryService;
     private final TakeAwayService takeAwayService;
+    private final OrderService orderService;
+    private final GuestTableService guestTableService;
 
     @PostMapping
     public ResponseEntity<Order> placeDineInOrder(@RequestBody CafeOrderRequest request) {
@@ -35,5 +41,15 @@ public class OrderController {
     public ResponseEntity<Order> placeTakeawayOrder(@RequestBody CafeOrderRequest request) {
         Order order = takeAwayService.placeTakeawayOrder(request);
         return new ResponseEntity<>(order, HttpStatus.CREATED);
+    }
+
+    @GetMapping
+    public ResponseEntity<java.util.List<Order>> getAllOrders() {
+        return ResponseEntity.ok(orderService.getAllOrders());
+    }
+
+    @GetMapping("/tables")
+    public ResponseEntity<java.util.List<GuestTable>> getAllTables() {
+        return ResponseEntity.ok(guestTableService.getAll());
     }
 }

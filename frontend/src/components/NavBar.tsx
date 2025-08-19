@@ -5,11 +5,13 @@ export default function NavBar({
   cartCount = 0,
   onMenuClick,
   onCartClick,
+  onOrderModeClick,
 }: {
   title?: string;
   cartCount?: number;
   onMenuClick?: () => void;
   onCartClick?: () => void;
+  onOrderModeClick?: () => void;
 }) {
   return (
     <AppBar position="static" sx={{
@@ -21,6 +23,7 @@ export default function NavBar({
         </Typography>
         <Box sx={{ flexGrow: 1 }} />
         <Button color="inherit" onClick={onMenuClick}>Меню</Button>
+        <Button color="inherit" onClick={onOrderModeClick}>Режим</Button>
         <Button color="inherit" onClick={onCartClick}>
           <Badge color="secondary" badgeContent={cartCount} overlap="circular">
             Корзина

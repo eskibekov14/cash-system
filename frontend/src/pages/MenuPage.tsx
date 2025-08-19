@@ -31,6 +31,7 @@ export default function MenuPage() {
         title="Меню"
         cartCount={cart.length}
         onMenuClick={() => nav('/menu')}
+        onOrderModeClick={() => nav('/order-mode')}
         onCartClick={() => nav('/cart', { state: { cart } })}
       />
       <Container sx={{ py: 3 }}>
