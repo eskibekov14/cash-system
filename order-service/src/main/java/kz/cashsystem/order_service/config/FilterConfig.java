@@ -12,6 +12,7 @@ public class FilterConfig {
         FilterRegistrationBean<JWTValidationFilter> registrationBean = new FilterRegistrationBean<>();
         registrationBean.setFilter(filter);
         registrationBean.addUrlPatterns("/api/*"); // защищаем только эти эндпоинты
+        registrationBean.addInitParameter("excludePatterns", "/api/tables/*");
         return registrationBean;
     }
 }

@@ -20,6 +20,14 @@ public class OrderService {
     private final GuestTableRepository guestTableRepository;
     @Transactional
     public Order createOrder(Order order) {
+        // Если заказ без столика (на вынос/доставка) — сохраняем без проверки столов
+        if (order.getTable() == null) {
+            if (order.getStatus() == null) {
+                order.setStatus(StatusEnum.OPEN);
+            }
+            return orderRepository.save(order);
+        }
+
         GuestTable table = guestTableRepository.findById(order.getTable().getId())
                 .orElseThrow(() -> new EntityNotFoundException("Стол не найден: id = " + order.getTable().getId()));
         if (table.getStatus() != TableStatus.AVAILABLE) {
@@ -47,8 +55,10 @@ public class OrderService {
         order.setStatus(status);
         if (status == StatusEnum.COMPLETED || status == StatusEnum.CANCELLED) {
             GuestTable table = order.getTable();
-            table.setStatus(TableStatus.AVAILABLE);
-            guestTableRepository.save(table);
+            if (table != null) {
+                table.setStatus(TableStatus.AVAILABLE);
+                guestTableRepository.save(table);
+            }
         }
         return orderRepository.save(order);
     }
