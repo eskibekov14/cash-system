@@ -19,7 +19,7 @@ export default function App() {
       <Route path="/order-mode/dine-in" element={<RequireAuth isAuthed={!!token}><DineInPage /></RequireAuth>} />
       <Route path="/order-mode/delivery" element={<RequireAuth isAuthed={!!token}><DeliveryPage /></RequireAuth>} />
       <Route path="/orders" element={<RequireAuth isAuthed={!!token}><OrdersPage /></RequireAuth>} />
-      <Route path="*" element={<Navigate to={token ? '/menu' : '/login'} replace />} />
+      <Route path="*" element={<Navigate to={token ? '/order-mode' : '/login'} replace />} />
     </Routes>
   );
 }
