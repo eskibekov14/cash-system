@@ -9,7 +9,9 @@ export function setAuthToken(token: string | null) {
 
 export const AuthAPI = {
   async login(username: string, password: string) {
+    console.log('AuthAPI.login called with:', { username, password });
     const res = await http.post('/auth/login', { username, password });
+    console.log('AuthAPI.login response:', res.data);
     return res.data?.data?.accessToken as string;
   },
 };

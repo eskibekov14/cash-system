@@ -8,16 +8,19 @@ export default function LoginPage() {
   const { setToken } = useAuthCtx();
   const nav = useNavigate();
   const [username, setUsername] = useState('testuser');
-  const [password, setPassword] = useState('testpassword');
+  const [password, setPassword] = useState('testpass123');
   const [error, setError] = useState<string | null>(null);
 
   async function onSubmit(e: FormEvent) {
     e.preventDefault();
     try {
+      console.log('Attempting login with:', { username, password });
       const jwt = await AuthAPI.login(username, password);
+      console.log('Login successful, JWT received');
       setToken(jwt);
       nav('/menu');
     } catch (err) {
+      console.error('Login error:', err);
       setError('Ошибка входа');
     }
   }
