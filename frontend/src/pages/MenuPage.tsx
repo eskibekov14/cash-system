@@ -1,7 +1,9 @@
 import { useEffect, useState } from 'react';
 import { MenuAPI, MenuItem } from '../api/http';
 import { Link, useNavigate } from 'react-router-dom';
-import { Typography, Container, Grid, Card, CardContent, Button, Chip, Box, TextField, CardActions } from '@mui/material';
+import { Typography, Container, Grid, Card, CardContent, Button, Chip, Box, TextField, CardActions, IconButton } from '@mui/material';
+import RemoveIcon from '@mui/icons-material/Remove';
+import AddIcon from '@mui/icons-material/Add';
 import NavBar from '../components/NavBar';
 
 type CartLine = { menuItemId: number; modifiersId: number[]; quantity: number };
@@ -23,6 +25,24 @@ export default function MenuPage() {
 
   function addToCart(item: MenuItem) {
     setCart([...cart, { menuItemId: item.id, modifiersId: [], quantity: 1 }]);
+  }
+  function decrementLine(index: number) {
+    const next = [...cart];
+    const line = next[index];
+    if (!line) return;
+    if (line.quantity > 1) {
+      line.quantity -= 1;
+      setCart(next);
+    } else {
+      setCart(next.filter((_, i) => i !== index));
+    }
+  }
+  function incrementLine(index: number) {
+    const next = [...cart];
+    const line = next[index];
+    if (!line) return;
+    line.quantity += 1;
+    setCart(next);
   }
 
   return (
@@ -77,17 +97,28 @@ export default function MenuPage() {
                     </Box>
                     <Box sx={{ mt: 2, display: 'flex', alignItems: 'center', gap: 1 }}>
                       <Typography>Кол-во:</Typography>
+                      <IconButton color="primary" aria-label="decrement" onClick={() => decrementLine(idx)}>
+                        <RemoveIcon />
+                      </IconButton>
                       <TextField
                         size="small"
                         type="number"
                         inputProps={{ min: 1 }}
                         value={line.quantity}
                         onChange={(e) => {
-                          line.quantity = Math.max(1, Number(e.target.value) || 1);
-                          setCart([...cart]);
+                          const value = Math.max(0, Number(e.target.value) || 0);
+                          if (value <= 0) {
+                            setCart(cart.filter((_, i) => i !== idx));
+                          } else {
+                            line.quantity = value;
+                            setCart([...cart]);
+                          }
                         }}
-                        sx={{ width: 100 }}
+                        sx={{ width: 80 }}
                       />
+                      <IconButton color="primary" aria-label="increment" onClick={() => incrementLine(idx)}>
+                        <AddIcon />
+                      </IconButton>
                     </Box>
                   </CardContent>
                 </Card>

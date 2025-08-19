@@ -8,7 +8,7 @@ export default function LoginPage() {
   const { setToken } = useAuthCtx();
   const nav = useNavigate();
   const [username, setUsername] = useState('testuser');
-  const [password, setPassword] = useState('testpassword');
+  const [password, setPassword] = useState('Testpass1!');
   const [error, setError] = useState<string | null>(null);
 
   async function onSubmit(e: FormEvent) {
@@ -16,7 +16,7 @@ export default function LoginPage() {
     try {
       const jwt = await AuthAPI.login(username, password);
       setToken(jwt);
-      nav('/menu');
+      nav('/order-mode');
     } catch (err) {
       setError('Ошибка входа');
     }
