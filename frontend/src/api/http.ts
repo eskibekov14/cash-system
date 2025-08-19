@@ -23,15 +23,32 @@ export type MenuItem = {
   modifiers: { id: number; name: string; additionalPrice: number }[];
 };
 
+export type Category = { id: number; name: string };
+export type SubCategory = { id: number; name: string; category?: Category };
+
 export const MenuAPI = {
-  async listItems() {
-    const res = await http.get<MenuItem[]>('/menu/menu-item');
+  async listItems(filter?: { categoryId?: number | null; subCategoryId?: number | null }) {
+    const params: any = {};
+    if (filter?.categoryId) params.categoryId = filter.categoryId;
+    if (filter?.subCategoryId) params.subCategoryId = filter.subCategoryId;
+    const res = await http.get<MenuItem[]>('/menu/menu-item', { params });
     return res.data;
   },
   async calculate(menuItemId: number, modifiersId: number[]) {
     const res = await http.post('/menu/prices/calculate', { menuItemId, modifiersId });
     return res.data as { basePrice: number; modifiersPrice: number };
   },
+};
+
+export const CategoryAPI = {
+  async listCategories() {
+    const res = await http.get<Category[]>('/menu/category');
+    return res.data;
+  },
+  async listSubCategories() {
+    const res = await http.get<SubCategory[]>('/menu/category/sub');
+    return res.data;
+  }
 };
 
 export const OrderAPI = {

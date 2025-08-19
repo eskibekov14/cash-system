@@ -1,5 +1,6 @@
-import { Box, Button, Container, Grid, Paper, Stack, Typography, CircularProgress } from '@mui/material';
-import NavBar from '../components/NavBar';
+import { Box, Button, Container, Grid, Paper, Stack, Typography, CircularProgress, Chip } from '@mui/material';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import SideNav from '../components/SideNav';
 import { useOrderCtx } from '../state/OrderContext';
 import { useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
@@ -23,48 +24,119 @@ export default function DineInPage() {
     nav('/menu');
   }
 
+  function handleTableSelect(tableId: number) {
+    handleSelect(tableId);
+  }
+
+  function getStatusLabel(status: string) {
+    switch (status) {
+      case 'AVAILABLE':
+        return 'Свободен';
+      case 'OCCUPIED':
+        return 'Занят';
+      case 'RESERVED':
+        return 'Забронирован';
+      default:
+        return '';
+    }
+  }
+
+  function getStatusColor(status: string) {
+    switch (status) {
+      case 'AVAILABLE':
+        return 'success';
+      case 'OCCUPIED':
+        return 'error';
+      case 'RESERVED':
+        return 'info';
+      default:
+        return 'default';
+    }
+  }
+
   return (
     <Box>
-      <NavBar title="Выбор столика" cartCount={0} onOrdersClick={() => nav('/orders')} onMenuClick={() => nav('/menu')} onOrderModeClick={() => nav('/order-mode')} onCartClick={() => nav('/cart')} />
+      <SideNav title="Выбор столика" />
       <Container sx={{ py: 4 }}>
-        <Typography variant="h5" gutterBottom>Зал</Typography>
+        <Button startIcon={<ArrowBackIcon />} onClick={() => nav(-1)} sx={{ mb: 4, fontSize: '1.2rem', py: 2, px: 3 }}>
+          Назад
+        </Button>
+        
+        <Typography variant="h3" sx={{ mb: 4, fontWeight: 700, color: 'primary.main', textAlign: 'center' }}>
+          Выберите столик
+        </Typography>
+        
         {loading ? (
-          <Box sx={{ display: 'flex', justifyContent: 'center', py: 6 }}>
-            <CircularProgress />
+          <Box sx={{ display: 'flex', justifyContent: 'center', py: 8 }}>
+            <CircularProgress size={80} />
           </Box>
         ) : (
-          <Grid container spacing={2} columns={{ xs: 6, sm: 8, md: 12 }}>
-            {tables.map((t) => (
-              <Grid item xs={2} key={t.id}>
+          <Grid container spacing={4}>
+            {tables.map((table) => (
+              <Grid item key={table.id} xs={12} sm={6} md={4} lg={3}>
                 <Paper
-                  onClick={() => handleSelect(t.id)}
-                  elevation={t.status === 'AVAILABLE' ? 1 : 4}
+                  elevation={table.status === 'AVAILABLE' ? 4 : 2}
                   sx={{
-                    cursor: 'pointer',
-                    p: 2,
-                    height: 100,
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    textAlign: 'center',
-                    bgcolor: t.status === 'OCCUPIED' ? 'error.light' : t.status === 'RESERVED' ? 'warning.light' : 'background.paper',
+                    p: 4,
+                    height: 200,
+                    cursor: table.status === 'AVAILABLE' ? 'pointer' : 'default',
+                    transition: 'all 0.3s ease-in-out',
+                    border: '2px solid',
+                    borderColor: table.status === 'AVAILABLE' ? 'primary.main' : 'grey.300',
+                    bgcolor: table.status === 'AVAILABLE' ? 'background.paper' : 'grey.100',
+                    '&:hover': table.status === 'AVAILABLE' ? {
+                      transform: 'translateY(-8px)',
+                      boxShadow: '0 16px 32px rgba(33, 150, 243, 0.2)',
+                      borderColor: 'primary.dark'
+                    } : {},
                   }}
+                  onClick={() => table.status === 'AVAILABLE' && handleTableSelect(table.id)}
                 >
-                  <Stack>
-                    <Typography variant="subtitle1">{t.name}</Typography>
-                    <Typography variant="caption" color="text.secondary">
-                      {t.status === 'AVAILABLE' ? 'Свободен' : t.status === 'OCCUPIED' ? 'Занят' : 'Забронирован'}
+                  <Stack spacing={3} alignItems="center" justifyContent="center" sx={{ height: '100%' }}>
+                    <Box sx={{
+                      width: 80,
+                      height: 80,
+                      borderRadius: '50%',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      bgcolor: table.status === 'AVAILABLE' ? 'primary.main' : 'grey.400',
+                      color: 'white',
+                      fontSize: '2rem',
+                      fontWeight: 700
+                    }}>
+                      {table.name}
+                    </Box>
+                    
+                    <Typography variant="h5" sx={{ fontWeight: 700, textAlign: 'center' }}>
+                      Столик {table.name}
                     </Typography>
+                    
+                    <Stack spacing={1} alignItems="center">
+                      <Typography variant="body1" sx={{ fontWeight: 600 }}>
+                        Вместимость: {table.capacity} чел.
+                      </Typography>
+                      <Typography variant="body2" sx={{ color: 'text.secondary' }}>
+                        {table.location}
+                      </Typography>
+                    </Stack>
+                    
+                    <Chip
+                      label={getStatusLabel(table.status)}
+                      color={getStatusColor(table.status)}
+                      sx={{ 
+                        fontSize: '1rem', 
+                        height: 40, 
+                        fontWeight: 600,
+                        '& .MuiChip-label': { px: 2 }
+                      }}
+                    />
                   </Stack>
                 </Paper>
               </Grid>
             ))}
           </Grid>
         )}
-
-        <Box sx={{ mt: 3 }}>
-          <Button variant="outlined" onClick={() => nav('/order-mode')}>Назад</Button>
-        </Box>
       </Container>
     </Box>
   );
