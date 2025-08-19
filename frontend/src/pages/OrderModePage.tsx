@@ -11,7 +11,7 @@ export default function OrderModePage() {
   const nav = useNavigate();
   return (
     <Box>
-      <NavBar title="Тип заказа" cartCount={0} onMenuClick={() => nav('/menu')} onOrderModeClick={() => {}} onCartClick={() => nav('/cart')} />
+      <NavBar title="Тип заказа" cartCount={0} onOrdersClick={() => nav('/orders')} onMenuClick={() => nav('/menu')} onOrderModeClick={() => {}} onCartClick={() => nav('/cart')} />
       <Container sx={{ py: 6 }}>
         <Grid container spacing={4}>
           <Grid item xs={12} md={4}>

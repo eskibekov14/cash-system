@@ -30,6 +30,7 @@ export default function MenuPage() {
       <NavBar
         title="Меню"
         cartCount={cart.length}
+        onOrdersClick={() => nav('/orders')}
         onMenuClick={() => nav('/menu')}
         onOrderModeClick={() => nav('/order-mode')}
         onCartClick={() => nav('/cart', { state: { cart } })}
