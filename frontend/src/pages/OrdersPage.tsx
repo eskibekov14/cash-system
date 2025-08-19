@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Container, Typography, Card, CardContent, Grid, Chip, Box, Button, IconButton, Paper, CircularProgress, Stack } from '@mui/material';
+import { Container, Typography, Card, CardContent, Grid, Chip, Box, Button, IconButton, Paper, CircularProgress, Stack, Dialog, DialogTitle, DialogContent, DialogActions } from '@mui/material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import SideNav from '../components/SideNav';
 import { OrderAPI } from '../api/http';
@@ -11,36 +11,65 @@ type Order = {
   customerId?: number | null;
   table?: { id: number } | null;
   createdAt?: string;
+  totalPrice?: number;
 };
 
 export default function OrdersPage() {
   const [orders, setOrders] = useState<Order[]>([]);
   const nav = useNavigate();
   const [loading, setLoading] = useState(true);
+  const [updatingOrderId, setUpdatingOrderId] = useState<number | null>(null);
+  const [statusDialogOpen, setStatusDialogOpen] = useState(false);
+  const [selectedOrder, setSelectedOrder] = useState<Order | null>(null);
 
   useEffect(() => {
-    (async () => {
-      setLoading(true);
-      try {
-        const data = await OrderAPI.listOrders();
-        setOrders(data);
-      } catch (error) {
-        console.error("Failed to fetch orders:", error);
-      } finally {
-        setLoading(false);
-      }
-    })();
+    fetchOrders();
   }, []);
+
+  const fetchOrders = async () => {
+    setLoading(true);
+    try {
+      const data = await OrderAPI.listOrders();
+      setOrders(data);
+    } catch (error) {
+      console.error("Failed to fetch orders:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleStatusUpdate = async (orderId: number, newStatus: string) => {
+    setUpdatingOrderId(orderId);
+    try {
+      await OrderAPI.updateOrderStatus(orderId, newStatus as any);
+      // Обновляем локальное состояние
+      setOrders(orders.map(order => 
+        order.id === orderId ? { ...order, status: newStatus } : order
+      ));
+      setStatusDialogOpen(false);
+      setSelectedOrder(null);
+    } catch (error) {
+      console.error("Failed to update order status:", error);
+      alert('Ошибка при обновлении статуса заказа');
+    } finally {
+      setUpdatingOrderId(null);
+    }
+  };
+
+  const openStatusDialog = (order: Order) => {
+    setSelectedOrder(order);
+    setStatusDialogOpen(true);
+  };
 
   const getStatusLabel = (status: string) => {
     switch (status) {
-      case 'pending':
-        return 'Ожидается';
-      case 'in_progress':
+      case 'OPEN':
+        return 'Новый';
+      case 'IN_PROGRESS':
         return 'В процессе';
-      case 'completed':
-        return 'Завершен';
-      case 'cancelled':
+      case 'COMPLETED':
+        return 'Готов';
+      case 'CANCELLED':
         return 'Отменен';
       default:
         return status;
@@ -49,13 +78,13 @@ export default function OrdersPage() {
 
   const getStatusColor = (status: string) => {
     switch (status) {
-      case 'pending':
+      case 'OPEN':
         return 'warning';
-      case 'in_progress':
+      case 'IN_PROGRESS':
         return 'info';
-      case 'completed':
+      case 'COMPLETED':
         return 'success';
-      case 'cancelled':
+      case 'CANCELLED':
         return 'error';
       default:
         return 'default';
@@ -72,6 +101,27 @@ export default function OrdersPage() {
         return 'Доставка';
       default:
         return type;
+    }
+  };
+
+  const getNextStatusOptions = (currentStatus: string) => {
+    switch (currentStatus) {
+      case 'OPEN':
+        return [
+          { value: 'IN_PROGRESS', label: 'Взять в работу', color: 'info' },
+          { value: 'CANCELLED', label: 'Отменить', color: 'error' }
+        ];
+      case 'IN_PROGRESS':
+        return [
+          { value: 'COMPLETED', label: 'Завершить', color: 'success' },
+          { value: 'CANCELLED', label: 'Отменить', color: 'error' }
+        ];
+      case 'COMPLETED':
+        return []; // Завершенный заказ нельзя изменить
+      case 'CANCELLED':
+        return []; // Отмененный заказ нельзя изменить
+      default:
+        return [];
     }
   };
 
@@ -157,10 +207,10 @@ export default function OrdersPage() {
                         <Button
                           variant="outlined"
                           size="large"
-                          onClick={() => {/* View order details */}}
+                          onClick={() => openStatusDialog(order)}
                           sx={{ py: 1.5, px: 3, fontSize: '1rem' }}
                         >
-                          Подробнее
+                          Изменить статус
                         </Button>
                       </Box>
                     </Stack>
@@ -171,6 +221,40 @@ export default function OrdersPage() {
           </Grid>
         )}
       </Container>
+
+      {/* Диалог изменения статуса */}
+      <Dialog open={statusDialogOpen} onClose={() => setStatusDialogOpen(false)} maxWidth="sm" fullWidth>
+        <DialogTitle>
+          Изменить статус заказа #{selectedOrder?.id}
+        </DialogTitle>
+        <DialogContent>
+          <Typography variant="body1" sx={{ mb: 2 }}>
+            Текущий статус: <strong>{selectedOrder ? getStatusLabel(selectedOrder.status) : ''}</strong>
+          </Typography>
+          <Stack spacing={2}>
+            {selectedOrder && getNextStatusOptions(selectedOrder.status).map((option) => (
+              <Button
+                key={option.value}
+                variant="contained"
+                color={option.color as any}
+                onClick={() => handleStatusUpdate(selectedOrder.id, option.value)}
+                disabled={updatingOrderId === selectedOrder.id}
+                sx={{ py: 2, fontSize: '1.1rem' }}
+              >
+                {updatingOrderId === selectedOrder.id ? 'Обновляем...' : option.label}
+              </Button>
+            ))}
+            {selectedOrder && getNextStatusOptions(selectedOrder.status).length === 0 && (
+              <Typography variant="body2" color="text.secondary" sx={{ textAlign: 'center', py: 2 }}>
+                Статус этого заказа нельзя изменить
+              </Typography>
+            )}
+          </Stack>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => setStatusDialogOpen(false)}>Отмена</Button>
+        </DialogActions>
+      </Dialog>
     </Box>
   );
 }

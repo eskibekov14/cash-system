@@ -69,6 +69,10 @@ export const OrderAPI = {
   async listOrders() {
     const res = await http.get('/order/order/list');
     return res.data;
+  },
+  async updateOrderStatus(orderId: number, status: 'OPEN' | 'IN_PROGRESS' | 'COMPLETED' | 'CANCELLED') {
+    const res = await http.put(`/order/order/${orderId}/status`, { status });
+    return res.data;
   }
 };
 

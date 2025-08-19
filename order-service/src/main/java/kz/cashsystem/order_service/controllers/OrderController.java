@@ -9,15 +9,12 @@ import kz.cashsystem.order_service.services.OrderService;
 import kz.cashsystem.order_service.services.TakeAwayService;
 import kz.cashsystem.order_service.services.GuestTableService;
 import kz.cashsystem.order_service.records.OrderListItem;
+import kz.cashsystem.order_service.enums.StatusEnum;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/order")
@@ -55,8 +52,17 @@ public class OrderController {
         return ResponseEntity.ok(orderService.getAllOrderListItems());
     }
 
+    @PutMapping("/{orderId}/status")
+    public ResponseEntity<Order> updateOrderStatus(@PathVariable Long orderId, @RequestBody StatusUpdateRequest request) {
+        Order updatedOrder = orderService.updateOrderStatus(orderId, request.status());
+        return ResponseEntity.ok(updatedOrder);
+    }
+
     @GetMapping("/tables")
     public ResponseEntity<java.util.List<GuestTable>> getAllTables() {
         return ResponseEntity.ok(guestTableService.getAll());
     }
+
+    // Record для обновления статуса
+    public record StatusUpdateRequest(StatusEnum status) {}
 }
