@@ -1,5 +1,6 @@
 package kz.cashsystem.order_service.records;
 
+import java.math.BigDecimal;
 import java.time.ZonedDateTime;
 import kz.cashsystem.order_service.enums.StatusEnum;
 
@@ -8,7 +9,8 @@ public record OrderListItem(
         StatusEnum status,
         Long customerId,
         Long tableId,
-        ZonedDateTime createdAt
+        ZonedDateTime createdAt,
+        BigDecimal totalPrice
 ) {}
 
 

@@ -8,6 +8,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface OrderRepository extends JpaRepository<Order,Long> {
-    @Query("select new kz.cashsystem.order_service.records.OrderListItem(o.id, o.status, o.customerId, (CASE WHEN o.table IS NULL THEN NULL ELSE o.table.id END), o.createdAt) from Order o")
+    @Query("select new kz.cashsystem.order_service.records.OrderListItem(o.id, o.status, o.customerId, (CASE WHEN o.table IS NULL THEN NULL ELSE o.table.id END), o.createdAt, COALESCE((SELECT SUM(oi.price * oi.quantity) FROM OrderItem oi WHERE oi.order = o), 0)) from Order o")
     java.util.List<OrderListItem> findAllListItems();
 }
