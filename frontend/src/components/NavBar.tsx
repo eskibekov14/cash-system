@@ -16,18 +16,19 @@ export default function NavBar({
   onOrdersClick?: () => void;
 }) {
   return (
-    <AppBar position="static" sx={{
-      background: 'linear-gradient(90deg, #1a73e8 0%, #6a11cb 100%)'
+    <AppBar position="static" color="transparent" sx={{
+      background: 'linear-gradient(90deg, rgba(123,30,30,0.95) 0%, rgba(200,169,106,0.95) 100%)',
+      backdropFilter: 'blur(6px)'
     }}>
       <Toolbar>
-        <Typography variant="h6" sx={{ fontWeight: 700 }}>
+        <Typography variant="h6" sx={{ fontWeight: 800, letterSpacing: 0.5 }}>
           {title}
         </Typography>
         <Box sx={{ flexGrow: 1 }} />
-        <Button color="inherit" onClick={onOrdersClick}>Заказы</Button>
-        <Button color="inherit" onClick={onMenuClick}>Меню</Button>
-        <Button color="inherit" onClick={onOrderModeClick}>Режим</Button>
-        <Button color="inherit" onClick={onCartClick}>
+        <Button color="inherit" variant="text" onClick={onOrdersClick}>Заказы</Button>
+        <Button color="inherit" variant="text" onClick={onMenuClick}>Меню</Button>
+        <Button color="inherit" variant="text" onClick={onOrderModeClick}>Режим</Button>
+        <Button color="inherit" variant="outlined" sx={{ ml: 1, borderColor: 'rgba(255,255,255,0.7)' }} onClick={onCartClick}>
           <Badge color="secondary" badgeContent={cartCount} overlap="circular">
             Корзина
           </Badge>

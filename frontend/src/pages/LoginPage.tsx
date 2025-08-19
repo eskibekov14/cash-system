@@ -18,7 +18,7 @@ export default function LoginPage() {
       const jwt = await AuthAPI.login(username, password);
       console.log('Login successful, JWT received');
       setToken(jwt);
-      nav('/menu');
+      nav('/order-mode');
     } catch (err) {
       console.error('Login error:', err);
       setError('Ошибка входа');
