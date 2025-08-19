@@ -48,7 +48,7 @@ export const OrderAPI = {
     return res.data;
   },
   async listOrders() {
-    const res = await http.get('/order/order');
+    const res = await http.get('/order/order/list');
     return res.data;
   }
 };

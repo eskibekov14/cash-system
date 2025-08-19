@@ -25,7 +25,7 @@ export default function OrdersPage() {
 
   return (
     <Box>
-      <NavBar title="Заказы" onMenuClick={() => nav('/menu')} onOrderModeClick={() => nav('/order-mode')} onCartClick={() => nav('/cart')} />
+      <NavBar title="Заказы" onOrdersClick={() => nav('/orders')} onMenuClick={() => nav('/menu')} onOrderModeClick={() => nav('/order-mode')} onCartClick={() => nav('/cart')} />
       <Container sx={{ py: 3 }}>
         <Grid container spacing={2}>
           {orders.map(o => (

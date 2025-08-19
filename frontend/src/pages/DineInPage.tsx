@@ -25,7 +25,7 @@ export default function DineInPage() {
 
   return (
     <Box>
-      <NavBar title="Выбор столика" cartCount={0} onMenuClick={() => nav('/menu')} onOrderModeClick={() => nav('/order-mode')} onCartClick={() => nav('/cart')} />
+      <NavBar title="Выбор столика" cartCount={0} onOrdersClick={() => nav('/orders')} onMenuClick={() => nav('/menu')} onOrderModeClick={() => nav('/order-mode')} onCartClick={() => nav('/cart')} />
       <Container sx={{ py: 4 }}>
         <Typography variant="h5" gutterBottom>Зал</Typography>
         {loading ? (

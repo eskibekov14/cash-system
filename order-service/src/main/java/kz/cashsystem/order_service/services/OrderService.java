@@ -8,6 +8,7 @@ import kz.cashsystem.order_service.enums.TableStatus;
 import kz.cashsystem.order_service.repositories.GuestTableRepository;
 import kz.cashsystem.order_service.repositories.OrderRepository;
 import lombok.RequiredArgsConstructor;
+import org.hibernate.Hibernate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -48,6 +49,11 @@ public class OrderService {
     @Transactional(readOnly = true)
     public List<Order> getAllOrders() {
         return orderRepository.findAll();
+    }
+
+    @Transactional(readOnly = true)
+    public java.util.List<kz.cashsystem.order_service.records.OrderListItem> getAllOrderListItems() {
+        return orderRepository.findAllListItems();
     }
     @Transactional
     public Order updateOrderStatus(Long id, StatusEnum status) {

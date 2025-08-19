@@ -8,8 +8,10 @@ import kz.cashsystem.order_service.services.DineInService;
 import kz.cashsystem.order_service.services.OrderService;
 import kz.cashsystem.order_service.services.TakeAwayService;
 import kz.cashsystem.order_service.services.GuestTableService;
+import kz.cashsystem.order_service.records.OrderListItem;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -44,8 +46,13 @@ public class OrderController {
     }
 
     @GetMapping
-    public ResponseEntity<java.util.List<Order>> getAllOrders() {
-        return ResponseEntity.ok(orderService.getAllOrders());
+    public ResponseEntity<java.util.List<OrderListItem>> getAllOrders() {
+        return ResponseEntity.ok(orderService.getAllOrderListItems());
+    }
+
+    @GetMapping("/list")
+    public ResponseEntity<java.util.List<OrderListItem>> getAllOrdersList() {
+        return ResponseEntity.ok(orderService.getAllOrderListItems());
     }
 
     @GetMapping("/tables")

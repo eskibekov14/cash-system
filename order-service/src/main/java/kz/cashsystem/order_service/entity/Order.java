@@ -1,6 +1,8 @@
 package kz.cashsystem.order_service.entity;
 
 import jakarta.persistence.*;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import kz.cashsystem.order_service.enums.StatusEnum;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -20,7 +22,8 @@ public class Order {
     private Long id;
     @Column(name = "customer_id", nullable = true)
     private Long customerId;
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private GuestTable table;
     private StatusEnum status;
     @CreationTimestamp
@@ -28,5 +31,6 @@ public class Order {
     @UpdateTimestamp
     private ZonedDateTime updatedAt;
     @OneToMany(fetch = FetchType.LAZY)
+    @JsonIgnore
     private List<OrderItem> orderItems;
 }

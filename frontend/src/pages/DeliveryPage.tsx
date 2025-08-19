@@ -15,7 +15,7 @@ export default function DeliveryPage() {
 
   return (
     <Box>
-      <NavBar title="Доставка" cartCount={0} onMenuClick={() => nav('/menu')} onOrderModeClick={() => nav('/order-mode')} onCartClick={() => nav('/cart')} />
+      <NavBar title="Доставка" cartCount={0} onOrdersClick={() => nav('/orders')} onMenuClick={() => nav('/menu')} onOrderModeClick={() => nav('/order-mode')} onCartClick={() => nav('/cart')} />
       <Container sx={{ py: 4, maxWidth: 640 }}>
         <Typography variant="h5" gutterBottom>Данные доставки</Typography>
         <Stack spacing={2}>

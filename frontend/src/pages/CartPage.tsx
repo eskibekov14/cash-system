@@ -27,7 +27,7 @@ export default function CartPage() {
 
   return (
     <Box>
-      <NavBar title="Оформление заказа" cartCount={cart.length} onMenuClick={() => nav('/menu')} onCartClick={() => {}} />
+      <NavBar title="Оформление заказа" cartCount={cart.length} onOrdersClick={() => nav('/orders')} onMenuClick={() => nav('/menu')} onCartClick={() => {}} />
       <Container sx={{ py: 3 }}>
         {cart.length === 0 ? (
           <Typography>Корзина пуста</Typography>
