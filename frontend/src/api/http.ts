@@ -28,6 +28,7 @@ export type MenuItem = {
   description: string;
   basePrice: number;
   available: boolean;
+  imageUrl?: string;
   modifiers: { id: number; name: string; additionalPrice: number }[];
 };
 

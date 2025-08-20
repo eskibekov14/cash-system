@@ -51,6 +51,7 @@ CREATE TABLE menu_items (
                             description VARCHAR(500),
                             base_price NUMERIC(10, 2) NOT NULL CHECK (base_price > 0),
                             available BOOLEAN DEFAULT TRUE,
+                            image_url VARCHAR(500),
                             sub_category_id BIGINT NOT NULL REFERENCES sub_categories(id)
 );
 
@@ -104,12 +105,12 @@ INSERT INTO stock_movements (inventory_item_id, movement_type, quantity_change, 
                                                                                             (3, 'OUT', 10, 'Использование на кухне');
 
 -- ===== menu_items =====
-INSERT INTO menu_items (name, description, base_price, available, sub_category_id) VALUES
-                                                                                       ('Картофель фри', 'Хрустящий картофель фри с соусом', 900.00, true, 1),
-                                                                                       ('Куриный суп', 'Лёгкий суп с курицей и лапшой', 1200.00, true, 2),
-                                                                                       ('Стейк из курицы', 'Подаётся с овощами гриль', 2200.00, true, 3),
-                                                                                       ('Чизкейк', 'Домашний чизкейк с клубничным соусом', 1300.00, true, 4),
-                                                                                       ('Капучино', 'Кофе с молоком и пенкой', 1100.00, true, 6);
+INSERT INTO menu_items (name, description, base_price, available, image_url, sub_category_id) VALUES
+                                                                                       ('Картофель фри', 'Хрустящий картофель фри с соусом', 900.00, true, 'https://images.unsplash.com/photo-1573086215529-3b010098f558?w=400&h=300&fit=crop', 1),
+                                                                                       ('Куриный суп', 'Лёгкий суп с курицей и лапшой', 1200.00, true, 'https://images.unsplash.com/photo-1547592166-23ac45744acd?w=400&h=300&fit=crop', 2),
+                                                                                       ('Стейк из курицы', 'Подаётся с овощами гриль', 2200.00, true, 'https://images.unsplash.com/photo-1604503468506-a8da13d82791?w=400&h=300&fit=crop', 3),
+                                                                                       ('Чизкейк', 'Домашний чизкейк с клубничным соусом', 1300.00, true, 'https://images.unsplash.com/photo-1533134242443-d4fd215305ad?w=400&h=300&fit=crop', 4),
+                                                                                       ('Капучино', 'Кофе с молоком и пенкой', 1100.00, true, 'https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=400&h=300&fit=crop', 6);
 
 -- ===== modifiers (указан menu_item_id) =====
 -- Картофель фри (id = 1)

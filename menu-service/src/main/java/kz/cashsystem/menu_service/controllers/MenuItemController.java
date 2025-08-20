@@ -1,14 +1,13 @@
 package kz.cashsystem.menu_service.controllers;
 
 import kz.cashsystem.menu_service.dto.MenuFilter;
+import kz.cashsystem.menu_service.dto.MenuItemDTO;
 import kz.cashsystem.menu_service.service.MenuItemService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import jakarta.validation.Valid;
 import kz.cashsystem.menu_service.entity.MenuItem;
-import kz.cashsystem.menu_service.service.MenuItemService;
-import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -36,17 +35,16 @@ public class MenuItemController {
     }
 
     @PostMapping
-    public ResponseEntity<MenuItem> addMenuItem(@Valid @RequestBody MenuItem menuItem) {
-        MenuItem saved = menuItemService.addMenuItem(menuItem);
+    public ResponseEntity<MenuItem> addMenuItem(@Valid @RequestBody MenuItemDTO menuItemDTO) {
+        MenuItem saved = menuItemService.addMenuItem(menuItemDTO);
         return ResponseEntity.status(HttpStatus.CREATED).body(saved);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<MenuItem> updateMenuItem(@PathVariable Long id, @Valid @RequestBody MenuItem menuItem) {
+    public ResponseEntity<MenuItem> updateMenuItem(@PathVariable Long id, @Valid @RequestBody MenuItemDTO menuItemDTO) {
         MenuItem existing = menuItemService.getMenuItemById(id);
         if (existing != null) {
-            menuItem.setId(id);
-            MenuItem updated = menuItemService.updateMenuItem(menuItem);
+            MenuItem updated = menuItemService.updateMenuItem(id, menuItemDTO);
             return ResponseEntity.ok(updated);
         } else {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
