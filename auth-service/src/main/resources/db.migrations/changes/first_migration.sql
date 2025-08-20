@@ -22,3 +22,19 @@ INSERT INTO users (
              NOW()
 )
 ON CONFLICT (username) DO NOTHING;
+
+-- Add test user for development
+INSERT INTO users (
+    username,
+    password,
+    email,
+    created_at,
+    updated_at
+) VALUES (
+             'testuser',
+             '$2a$12$DfqYImPNIqIIS5fG0dP9p.eN.9/bH3PIFHNbVlMwAKCSERR63rdKK',
+             'test@example.com',
+             NOW(),
+             NOW()
+)
+ON CONFLICT (username) DO NOTHING;

@@ -102,8 +102,13 @@ export default function DineInPage() {
                       justifyContent: 'center',
                       bgcolor: table.status === 'AVAILABLE' ? 'primary.main' : 'grey.400',
                       color: 'white',
-                      fontSize: '2rem',
-                      fontWeight: 700
+                      fontSize: '1.5rem',
+                      fontWeight: 700,
+                      overflow: 'hidden',
+                      textOverflow: 'ellipsis',
+                      whiteSpace: 'nowrap',
+                      maxWidth: '100%',
+                      padding: '4px'
                     }}>
                       {table.name}
                     </Box>

@@ -1,3 +1,12 @@
+-- Create guest_tables table if it doesn't exist
+CREATE TABLE IF NOT EXISTS guest_tables (
+    id BIGSERIAL PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    capacity INTEGER NOT NULL,
+    location VARCHAR(255) NOT NULL,
+    status VARCHAR(50) NOT NULL
+);
+
 -- Insert sample tables for the restaurant
 INSERT INTO guest_tables (name, capacity, location, status) VALUES
     ('Стол 1', 2, 'У окна', 'AVAILABLE'),

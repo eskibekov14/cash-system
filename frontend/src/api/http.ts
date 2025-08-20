@@ -3,8 +3,14 @@ import axios from 'axios';
 export const http = axios.create();
 
 export function setAuthToken(token: string | null) {
-  if (token) http.defaults.headers.common['Authorization'] = `Bearer ${token}`;
-  else delete http.defaults.headers.common['Authorization'];
+  if (token) {
+    http.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+    console.log('Auth token set:', token);
+    console.log('Current headers:', http.defaults.headers.common);
+  } else {
+    delete http.defaults.headers.common['Authorization'];
+    console.log('Auth token removed');
+  }
 }
 
 export const AuthAPI = {
@@ -55,7 +61,10 @@ export const CategoryAPI = {
 
 export const OrderAPI = {
   async createTakeaway(items: { menuItemId: number; modifiersId: number[]; quantity: number }[]) {
+    console.log('OrderAPI.createTakeaway called with:', { items });
+    console.log('Request headers:', http.defaults.headers.common);
     const res = await http.post('/order/order/takeaway', { customer: null, tableId: null, items });
+    console.log('OrderAPI.createTakeaway response:', res.data);
     return res.data;
   },
   async createDineIn(tableId: number, items: { menuItemId: number; modifiersId: number[]; quantity: number }[]) {

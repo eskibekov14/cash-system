@@ -141,10 +141,7 @@ export default function OrderModePage() {
           </Grid>
         </Grid>
 
-        <Box sx={{ mt: 4, display: 'flex', gap: 2 }}>
-          <Button variant="outlined" onClick={() => nav('/menu')}>К меню</Button>
-          <Button variant="contained" onClick={() => nav('/cart')}>Перейти к корзине</Button>
-        </Box>
+
       </Container>
     </Box>
   );
