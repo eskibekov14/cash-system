@@ -6,6 +6,7 @@ public class AppConstants {
             "/swagger-ui/**",
             "/api/auth/register/**",
             "/api/auth/login/**",
+            "/api/auth/quick-login/**",
             "/api/auth/registerAdmin/**"
     };
 }

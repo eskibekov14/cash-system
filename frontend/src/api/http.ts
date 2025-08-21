@@ -20,6 +20,13 @@ export const AuthAPI = {
     console.log('AuthAPI.login response:', res.data);
     return res.data?.data?.accessToken as string;
   },
+
+  async quickLogin(quickAccessCode: string) {
+    console.log('AuthAPI.quickLogin called with:', { quickAccessCode });
+    const res = await http.post('/auth/quick-login', { quickAccessCode });
+    console.log('AuthAPI.quickLogin response:', res.data);
+    return res.data?.data?.accessToken as string;
+  },
 };
 
 export type MenuItem = {

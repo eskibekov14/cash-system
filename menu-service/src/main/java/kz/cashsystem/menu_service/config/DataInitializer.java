@@ -85,45 +85,45 @@ public class DataInitializer implements CommandLineRunner {
         fries.setDescription("Хрустящий картофель фри с соусом");
         fries.setBasePrice(new BigDecimal("900.00"));
         fries.setAvailable(true);
-        fries.setImageUrl("https://images.unsplash.com/photo-1573086215529-3b010098f558?w=400&h=300&fit=crop");
+        fries.setImageUrl("data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAwIiBoZWlnaHQ9IjMwMCIgdmlld0JveD0iMCAwIDQwMCAzMDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHJlY3Qgd2lkdGg9IjQwMCIgaGVpZ2h0PSIzMDAiIGZpbGw9IiNmZmY4ZDAiLz48Y2lyY2xlIGN4PSIxMDAiIGN5PSIxMDAiIHI9IjIwIiBmaWxsPSIjZmY5ODAwIi8+PGNpcmNsZSBjeD0iMTUwIiBjeT0iMTIwIiByPSIxNSIgZmlsbD0iI2ZmOTgwMCIvPjxjaXJjbGUgY3g9IjIwMCIgY3k9IjExMCIgcj0iMjAiIGZpbGw9IiNmZjk4MDAiLz48Y2lyY2xlIGN4PSIyNTAiIGN5PSIxMzAiIHI9IjE4IiBmaWxsPSIjZmY5ODAwIi8+PGNpcmNsZSBjeD0iMzAwIiBjeT0iMTAwIiByPSIyMiIgZmlsbD0iI2ZmOTgwMCIvPjwvc3ZnPg==");
         fries.setSubCategory(appetizers);
-        fries = menuItemRepository.save(fries);
+        menuItemRepository.save(fries);
 
         MenuItem soup = new MenuItem();
         soup.setName("Куриный суп");
         soup.setDescription("Лёгкий суп с курицей и лапшой");
         soup.setBasePrice(new BigDecimal("1200.00"));
         soup.setAvailable(true);
-        soup.setImageUrl("https://images.unsplash.com/photo-1547592166-23ac45744acd?w=400&h=300&fit=crop");
+        soup.setImageUrl("data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAwIiBoZWlnaHQ9IjMwMCIgdmlld0JveD0iMCAwIDQwMCAzMDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHJlY3Qgd2lkdGg9IjQwMCIgaGVpZ2h0PSIzMDAiIGZpbGw9IiNmZmY4ZDAiLz48Y2lyY2xlIGN4PSIyMDAiIGN5PSIxNTAiIHI9IjgwIiBmaWxsPSIjZmZkNzAwIi8+PGNpcmNsZSBjeD0iMTgwIiBjeT0iMTMwIiByPSIxNSIgZmlsbD0iI2ZmOTgwMCIvPjxjaXJjbGUgY3g9IjIyMCIgY3k9IjE3MCIgcj0iMTIiIGZpbGw9IiNmZjk4MDAiLz48Y2lyY2xlIGN4PSIyNTAiIGN5PSIxNDAiIHI9IjEwIiBmaWxsPSIjZmY5ODAwIi8+PC9zdmc+");
         soup.setSubCategory(soups);
-        soup = menuItemRepository.save(soup);
+        menuItemRepository.save(soup);
 
         MenuItem steak = new MenuItem();
         steak.setName("Стейк из курицы");
         steak.setDescription("Подаётся с овощами гриль");
         steak.setBasePrice(new BigDecimal("2200.00"));
         steak.setAvailable(true);
-        steak.setImageUrl("https://images.unsplash.com/photo-1604503468506-a8da13d82791?w=400&h=300&fit=crop");
+        steak.setImageUrl("data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAwIiBoZWlnaHQ9IjMwMCIgdmlld0JveD0iMCAwIDQwMCAzMDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHJlY3Qgd2lkdGg9IjQwMCIgaGVpZ2h0PSIzMDAiIGZpbGw9IiNmZmY4ZDAiLz48cmVjdCB4PSI1MCIgeT0iMTAwIiB3aWR0aD0iMzAwIiBoZWlnaHQ9IjEwMCIgZmlsbD0iI2ZmOTgwMCIgcng9IjIwIi8+PGNpcmNsZSBjeD0iNzAiIGN5PSIxMjAiIHI9IjEwIiBmaWxsPSIjZmZmZmZmIi8+PGNpcmNsZSBjeD0iMTAwIiBjeT0iMTQwIiByPSI4IiBmaWxsPSIjZmZmZmZmIi8+PGNpcmNsZSBjeD0iMTMwIiBjeT0iMTYwIiByPSIxMiIgZmlsbD0iI2ZmZmZmZiIvPjxjaXJjbGUgY3g9IjE2MCIgY3k9IjEzMCIgcj0iMTAiIGZpbGw9IiNmZmZmZmYiLz48L3N2Zz4=");
         steak.setSubCategory(mainDishes);
-        steak = menuItemRepository.save(steak);
+        menuItemRepository.save(steak);
 
         MenuItem cheesecake = new MenuItem();
         cheesecake.setName("Чизкейк");
         cheesecake.setDescription("Домашний чизкейк с клубничным соусом");
         cheesecake.setBasePrice(new BigDecimal("1300.00"));
         cheesecake.setAvailable(true);
-        cheesecake.setImageUrl("https://images.unsplash.com/photo-1533134242443-d4fd215305ad?w=400&h=300&fit=crop");
+        cheesecake.setImageUrl("data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAwIiBoZWlnaHQ9IjMwMCIgdmlld0JveD0iMCAwIDQwMCAzMDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHJlY3Qgd2lkdGg9IjQwMCIgaGVpZ2h0PSIzMDAiIGZpbGw9IiNmZmY4ZDAiLz48Y2lyY2xlIGN4PSIyMDAiIGN5PSIxNTAiIHI9IjYwIiBmaWxsPSIjZmZmZmZmIi8+PGNpcmNsZSBjeD0iMTgwIiBjeT0iMTMwIiByPSIxMCIgZmlsbD0iI2ZmOTgwMCIvPjxjaXJjbGUgY3g9IjIyMCIgY3k9IjE3MCIgcj0iOCIgZmlsbD0iI2ZmOTgwMCIvPjxjaXJjbGUgY3g9IjI1MCIgY3k9IjE0MCIgcj0iMTIiIGZpbGw9IiNmZjk4MDAiLz48Y2lyY2xlIGN4PSIyODAiIGN5PSIxNjAiIHI9IjEwIiBmaWxsPSIjZmY5ODAwIi8+PC9zdmc+");
         cheesecake.setSubCategory(desserts);
-        cheesecake = menuItemRepository.save(cheesecake);
+        menuItemRepository.save(cheesecake);
 
         MenuItem cappuccino = new MenuItem();
         cappuccino.setName("Капучино");
         cappuccino.setDescription("Кофе с молоком и пенкой");
         cappuccino.setBasePrice(new BigDecimal("1100.00"));
         cappuccino.setAvailable(true);
-        cappuccino.setImageUrl("https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=400&h=300&fit=crop");
+        cappuccino.setImageUrl("data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAwIiBoZWlnaHQ9IjMwMCIgdmlld0JveD0iMCAwIDQwMCAzMDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHJlY3Qgd2lkdGg9IjQwMCIgaGVpZ2h0PSIzMDAiIGZpbGw9IiNmZmY4ZDAiLz48Y2lyY2xlIGN4PSIyMDAiIGN5PSIxNTAiIHI9IjYwIiBmaWxsPSIjOGI1NDdmIi8+PGNpcmNsZSBjeD0iMTgwIiBjeT0iMTMwIiByPSIxMCIgZmlsbD0iI2ZmZmZmZiIvPjxjaXJjbGUgY3g9IjIyMCIgY3k9IjE3MCIgcj0iOCIgZmlsbD0iI2ZmZmZmZiIvPjxjaXJjbGUgY3g9IjI1MCIgY3k9IjE0MCIgcj0iMTIiIGZpbGw9IiNmZmZmZmYiLz48Y2lyY2xlIGN4PSIyODAiIGN5PSIxNjAiIHI9IjEwIiBmaWxsPSIjZmZmZmZmIi8+PC9zdmc+");
         cappuccino.setSubCategory(coffee);
-        cappuccino = menuItemRepository.save(cappuccino);
+        menuItemRepository.save(cappuccino);
 
         // Создаем модификаторы
         Modifier cheeseModifier = new Modifier();

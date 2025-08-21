@@ -2,6 +2,7 @@ package kz.kenzhakhimov.authservice.mapper;
 
 import kz.kenzhakhimov.authservice.dto.RegisterDTO;
 import kz.kenzhakhimov.authservice.dto.RegisterResponse;
+import kz.kenzhakhimov.authservice.dto.UserInfoDTO;
 import kz.kenzhakhimov.authservice.entitites.User;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -12,4 +13,5 @@ public interface UserMapper {
 
     User toEntity(RegisterDTO dto);
     RegisterResponse toRegisterResponse(User user);
+    UserInfoDTO toUserInfoDTO(User user);
 }

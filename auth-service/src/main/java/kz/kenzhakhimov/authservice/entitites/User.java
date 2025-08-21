@@ -36,6 +36,15 @@ public class User {
     @ElementCollection(fetch = FetchType.EAGER)
     private Set<String> roles;
 
+    @Column(unique = true, nullable = false)
+    private String quickAccessCode;
+
+    private String fullName;
+    
+    private String phoneNumber;
+    
+    private String position;
+
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 

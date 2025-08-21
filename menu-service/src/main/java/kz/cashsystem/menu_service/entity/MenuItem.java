@@ -33,7 +33,7 @@ public class MenuItem {
     @ManyToOne(fetch = FetchType.EAGER)
     private SubCategory subCategory;
     
-    @Size(max = 500, message = "URL изображения не должен превышать 500 символов")
+    @Size(max = 2000, message = "URL изображения не должен превышать 2000 символов")
     @Column(name = "image_url")
     private String imageUrl;
 
